@@ -40,7 +40,7 @@ class Player(Block):
     x_speed = 20
     y_speed = 0
     direction = 0
-    game_sp = 0
+    fps = 0
     score = 0
     start = False
     collision = False
@@ -87,7 +87,7 @@ def checkCollisions():
         new_block.rect.y = -20
         snake_blocks.add(new_block)
         player.snake_list.append(new_block)
-        player.game_sp+=0.5
+        player.fps+=0.5
         player.score+=1
     new_block = pygame.sprite.spritecollide(block,snake_blocks,False)
     if len(new_block)>0:
@@ -108,7 +108,7 @@ def rotate(current_direction, intended_direction):
 def reset():
     player.x_speed = 20
     player.y_speed = 0
-    player.game_sp = 5
+    player.fps = 5
     player.rotation = rotate(player.direction,360)
     player.image = pygame.transform.rotate(player.image,player.rotation)
     player.direction = 0
@@ -238,5 +238,5 @@ while not done:
     screen.blit(life_text,[285,5])
     displayLives(screen)
     pygame.display.flip()
-    clock.tick(player.game_sp)
+    clock.tick(player.fps)
 pygame.quit()
