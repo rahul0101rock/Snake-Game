@@ -45,7 +45,7 @@ class Player(Block):
     start_game = False
     collision = False
     rotation = 0
-    snake_blocks_list = []
+    snake_list = []
     lives = 4
       
 #Update snake position    
@@ -60,17 +60,19 @@ def update(length):
         player.rect.x+=player.x_speed
         player.rect.y+=player.y_speed
         while i >= 1:
-            player.snake_blocks_list[i].rect.x = player.snake_blocks_list[i-1].rect.x
-            player.snake_blocks_list[i].rect.y = player.snake_blocks_list[i-1].rect.y
+            player.snake_list[i].rect.x = player.snake_list[i-1].rect.x
+            player.snake_list[i].rect.y = player.snake_list[i-1].rect.y
             i -=1
-        player.snake_blocks_list[0].rect.x = holding_x
-        player.snake_blocks_list[0].rect.y = holding_y
+        player.snake_list[0].rect.x = holding_x
+        player.snake_list[0].rect.y = holding_y
     
         
 #Check for collisions
 def checkCollisions():
     hit_yourself = pygame.sprite.spritecollide(player,snake_blocks,False)
     if len(hit_yourself)>0:
+        pygame.mixer.music.load("assets/crash.mp3")
+        pygame.mixer.music.play()
         player.collision = True
     got_target = pygame.sprite.spritecollide(player,target_block,False)
     if len(got_target)>0:
@@ -84,7 +86,7 @@ def checkCollisions():
         new_block.rect.x = -20
         new_block.rect.y = -20
         snake_blocks.add(new_block)
-        player.snake_blocks_list.append(new_block)
+        player.snake_list.append(new_block)
         player.frame_rate+=0.5
         player.score+=1
     new_block = pygame.sprite.spritecollide(block,snake_blocks,False)
@@ -92,6 +94,8 @@ def checkCollisions():
         block.rect.x = random.randrange(0,385)
         block.rect.y = random.randrange(20,585)
     if player.rect.x > size[0]-19 or player.rect.x < 0 or player.rect.y > size[1]-19 or player.rect.y < 20:
+        pygame.mixer.music.load("assets/crash.mp3")
+        pygame.mixer.music.play()
         player.collision = True
     
 
@@ -112,7 +116,7 @@ def reset():
     player.rect.y = 200
     for i in snake_blocks:
         i.kill()
-    player.snake_blocks_list = []
+    player.snake_list = []
     player.lives-=1
 
 def displayLives(screen):
@@ -199,7 +203,7 @@ while not done:
         pygame.display.flip()
         clock.tick(20)
 
-    update(len(player.snake_blocks_list))
+    update(len(player.snake_list))
     checkCollisions()
     if player.collision == True:
         screen.fill(white)
