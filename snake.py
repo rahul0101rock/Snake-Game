@@ -46,7 +46,7 @@ class Player(Block):
     collision = False
     rotation = 0
     snake_blocks_list = []
-    lives = 6
+    lives = 4
       
 #Update snake position    
 def update(length):
@@ -116,7 +116,7 @@ def reset():
     player.lives-=1
 
 def displayLives(screen):
-    x = 280
+    x = 320
     y = 0
     for i in range(player.lives):
         screen.blit(life_image,[x+20,y])
@@ -207,14 +207,21 @@ while not done:
         score_text = font.render("Score: "+str(player.score),True,black)
         life_text = font.render("Lives: ",True,black)
         screen.blit(score_text,[5,5])
-        screen.blit(life_text,[245,5])
+        screen.blit(life_text,[285,5])
         pygame.display.flip()
         pygame.time.wait(400)
         reset()
         player.collision = False
     if player.lives < 1:
+        screen.fill(brown)
+        font = pygame.font.Font(None, 70)
+        title = font.render('GAME OVER', 1,white)
+        font = pygame.font.Font(None,25)
+        screen.blit(title,[55,265])
+        pygame.display.flip()
+        pygame.time.wait(800)
         player.score = 0
-        player.lives = 6
+        player.lives = 4
         player.start_game = False
     screen.fill(white)
     pygame.draw.rect(screen,red, [0, 23, 400,577],3)
@@ -224,7 +231,7 @@ while not done:
     score_text = font.render("Score: "+str(player.score),True,black)
     life_text = font.render("Lives: ",True,black)
     screen.blit(score_text,[5,5])
-    screen.blit(life_text,[245,5])
+    screen.blit(life_text,[285,5])
     displayLives(screen)
     pygame.display.flip()
     clock.tick(player.frame_rate)
