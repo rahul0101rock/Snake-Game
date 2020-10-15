@@ -40,9 +40,9 @@ class Player(Block):
     x_speed = 20
     y_speed = 0
     direction = 0
-    frame_rate = 0
+    game_sp = 0
     score = 0
-    start_game = False
+    start = False
     collision = False
     rotation = 0
     snake_list = []
@@ -87,7 +87,7 @@ def checkCollisions():
         new_block.rect.y = -20
         snake_blocks.add(new_block)
         player.snake_list.append(new_block)
-        player.frame_rate+=0.5
+        player.game_sp+=0.5
         player.score+=1
     new_block = pygame.sprite.spritecollide(block,snake_blocks,False)
     if len(new_block)>0:
@@ -108,7 +108,7 @@ def rotate(current_direction, intended_direction):
 def reset():
     player.x_speed = 20
     player.y_speed = 0
-    player.frame_rate = 5
+    player.game_sp = 5
     player.rotation = rotate(player.direction,360)
     player.image = pygame.transform.rotate(player.image,player.rotation)
     player.direction = 0
@@ -188,18 +188,18 @@ while not done:
                 player.rotation = rotate(player.direction, 360)
                 player.image = pygame.transform.rotate(player.image,player.rotation)
                 player.direction = 0
-    while player.start_game == False:
+    while player.start == False:
         displayMenu(screen)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                player.start_game = True
+                player.start = True
                 done = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
                 if mouse[0] > 15 and mouse[0] < 350:
                     if mouse[1] > 350 and mouse[1] < 447:
                         reset()
-                        player.start_game = True
+                        player.start = True
         pygame.display.flip()
         clock.tick(20)
 
@@ -226,7 +226,7 @@ while not done:
         pygame.time.wait(800)
         player.score = 0
         player.lives = 4
-        player.start_game = False
+        player.start = False
     screen.fill(white)
     pygame.draw.rect(screen,red, [0, 23, 400,577],3)
     target_block.draw(screen)
@@ -238,5 +238,5 @@ while not done:
     screen.blit(life_text,[285,5])
     displayLives(screen)
     pygame.display.flip()
-    clock.tick(player.frame_rate)
+    clock.tick(player.game_sp)
 pygame.quit()
