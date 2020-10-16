@@ -24,6 +24,7 @@ snake_body = pygame.image.load("assets/snake_body.png").convert()
 life_image = pygame.transform.rotate(snake_head,90)
 new_game = pygame.image.load("assets/new_game.jpeg").convert()
 Icon = pygame.image.load('assets/icon.png')
+#icon
 pygame.display.set_icon(Icon)
 
 #Block class
@@ -164,25 +165,25 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP and (player.y_speed!=20 or player.score<2):
                 player.x_speed = 0
                 player.y_speed = -20
                 player.rotation = rotate(player.direction, 90)
                 player.image = pygame.transform.rotate(player.image,player.rotation)
                 player.direction = 90
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN and (player.y_speed!=-20 or player.score<2):
                 player.x_speed = 0
                 player.y_speed = 20
                 player.rotation = rotate(player.direction, 270)
                 player.image = pygame.transform.rotate(player.image,player.rotation)
                 player.direction = 270
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT and (player.x_speed!=20 or player.score<2):
                 player.x_speed = -20
                 player.y_speed = 0
                 player.rotation = rotate(player.direction, 180)
                 player.image = pygame.transform.rotate(player.image,player.rotation)
                 player.direction = 180
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT and (player.x_speed!=-20 or player.score<2):
                 player.x_speed = 20
                 player.y_speed = 0
                 player.rotation = rotate(player.direction, 360)
